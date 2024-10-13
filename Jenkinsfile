@@ -23,7 +23,7 @@ pipeline {
 
         stage('Deploy no Kubernetes') {
             steps {
-                sh 'echo executando o comando kubectl apply'
+                bat 'echo executando o comando kubectl apply'
             }
         }
     }

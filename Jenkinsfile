@@ -5,27 +5,29 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    dockerapp = docker.build("Keyssong/jenkins:${env.BUILD_ID}", '-f ./src/Dockerfile ./src')
+                    
+                    dockerapp = docker.build("keyssong/jenkins:${env.BUILD_ID}", '-f ./src/Dockerfile ./src')
                 }
             }
         }
 
-         stage('Push Docker Image') {
+        stage('Push Docker Image') {
             steps {
                 script {
+                    
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-                    dockerapp.push('latest')
-                    dockerapp.push("${env.BUILD_ID}")
+                        dockerapp.push('latest')    
+                        dockerapp.push("${env.BUILD_ID}")  
                     }
                 }
             }
-            
         }
 
         stage('Deploy no Kubernetes') {
             steps {
                 script {
-                    dockerapp = docker.build('KeyssonG/Jenkins:')
+                 
+                    dockerapp = docker.build('keyssong/jenkins:') 
                 }
             }
         }

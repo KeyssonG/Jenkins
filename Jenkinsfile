@@ -27,8 +27,13 @@ pipeline {
             }
             steps {
                 withKubeConfig([credentialsId: 'kubeconfig']) {
-                    bat 'sed: -i "s{{tag}}/tag_version/g ./k8s/deployment.yaml'
-                    bat 'kubectl apply -f k8s/deployment.yaml'
+
+                    bat """
+                        powershell -Command "(Get-Content ./k8s/deployment.yaml) -replace '{{tag}}', '${tag_version}' | Set-Content ./k8s/deployment.yaml"
+                    """
+
+
+                    bat 'kubectl apply -f ./k8s/deployment.yaml'
                 }
             }
         }
